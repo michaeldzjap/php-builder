@@ -12,7 +12,8 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     && apt-get autoremove --yes && apt-get clean \
     && rm --force --recursive /var/lib/apt/lists/* \
     && docker-php-ext-configure gd --with-jpeg \
-    && docker-php-ext-install gd pcntl exif pdo_mysql zip \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install gd pcntl exif pdo_mysql zip intl \
     && curl --show-error --silent https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
