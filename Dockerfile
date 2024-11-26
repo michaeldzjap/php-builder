@@ -15,16 +15,18 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     && docker-php-ext-configure intl \
     && docker-php-ext-install gd pcntl exif pdo_mysql zip intl \
     && curl --show-error --silent https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && pecl install xdebug \
+    && pecl install xdebug-3.4.0beta1 \
     && docker-php-ext-enable xdebug \
     && echo xdebug.mode=coverage > /usr/local/etc/php/conf.d/xdebug.ini \
-    && curl --location --output /tmp/imagick.tar.gz https://github.com/Imagick/imagick/archive/refs/tags/3.7.0.tar.gz \
-    && tar --strip-components=1 --extract --file=/tmp/imagick.tar.gz \
+    && git clone https://github.com/Imagick/imagick.git --depth 1 /tmp/imagick \
+    && cd /tmp/imagick \
+    && git fetch origin master \
+    && git switch master \
     && phpize \
     && ./configure \
     && make \
     && make install \
-    && echo "extension=imagick.so" > /usr/local/etc/php/conf.d/ext-imagick.ini \
+    && docker-php-ext-enable imagick \
     && rm --recursive --force /tmp/* \
     && sed --in-place '/disable ghostscript format types/,+6d' /etc/ImageMagick-6/policy.xml
 
