@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM php:8.3
+FROM php:8.4
 
 LABEL org.opencontainers.image.authors="Michael Dzjaparidze"
 
